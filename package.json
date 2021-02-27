@@ -1,0 +1,21 @@
+{
+  "name": "lumen-zipfile",
+  "version": "1.0.0",
+  "description": "#### 介绍 使用lumen框架，实现zip文件的上传，自动压缩，预览文件，zip文件的上传，项目的创建和删除  （主要是管理产品图zip包，自动解压，在线预览）",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/mikehub/lumen-zipfile.git"
+  },
+  "author": "mike",
+  "license": "ISC",
+  "dependencies": {
+    "layui-src": "^2.5.8"
+  }
+}
