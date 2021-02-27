@@ -51,6 +51,7 @@
             @if(empty($content))
                 <div class="alert alert-info">没有任何项目记录，快去新建项目吧。</div>
             @else
+                <div class="alert-warning">提示！若预览链接没有更新，清除浏览器缓存后重试。</div>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -72,6 +73,9 @@
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#upload-demo" data-value="{{ $value['name'] }}">上传Demo</button>
                                 <button type="button" class="btn btn-danger btn-sm del-project" data-value="{{ $value['name'] }}">删除</button>
+                                @if($value['count'] > 0)
+                                    <a class="btn btn-warning btn-sm" href="/file/{{ urlencode($value['name']) }}" target="_blank">预览</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -137,6 +141,17 @@
             });
         }
 
+        function loading(msg)
+        {
+            layui.use('layer', function(){
+                layui.layer.msg(msg, {
+                    icon: 16
+                    ,shade: 0.01
+                    ,time:0
+                });
+            });
+        }
+
         $('#create-project').on('click',function () {
             var name = $.trim($('#name').val());
             $.post('/file/create', 'name=' + name, function (res) {
@@ -147,6 +162,7 @@
         $('.del-project').on('click',function () {
             var res = confirm("确认删除吗？，删除后不可恢复！");
             if (res) {
+                loading('删除中...');
                 var name = $(this).data('value');
                 $.post('/file/del', 'name=' + name, function (res) {
                     layerAlert(res);
@@ -177,13 +193,7 @@
                 processData: false,
                 // dataType: "json",
                 beforeSend : function(){
-                    layui.use('layer', function(){
-                        layui.layer.msg('上传中...', {
-                            icon: 16
-                            ,shade: 0.01
-                            ,time:0
-                        });
-                    });
+                    loading('上传中...');
                 },
                 success: function (res) {
                     console.log(res)
